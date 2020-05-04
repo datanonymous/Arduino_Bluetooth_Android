@@ -43,6 +43,8 @@ public class Controlling extends Activity {
     String receivedDataFromBluetooth;
     String readMessage;
 
+    String strInput;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,8 +52,8 @@ public class Controlling extends Activity {
 
         ActivityHelper.initialize(this);
         // mBtnDisconnect = (Button) findViewById(R.id.btnDisconnect);
-        btnOn=(Button)findViewById(R.id.on);
-        btnOff=(Button)findViewById(R.id.off);
+        btnOn = findViewById(R.id.on);
+        btnOff = findViewById(R.id.off);
 
         Intent intent = getIntent();
         Bundle b = intent.getExtras();
@@ -61,25 +63,21 @@ public class Controlling extends Activity {
 
         Log.d(TAG, "Ready");
 
-        btnOn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                try {
-                    mBTSocket.getOutputStream().write(on.getBytes());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }});
+        btnOn.setOnClickListener(v -> {
+            try {
+                mBTSocket.getOutputStream().write(on.getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
-        btnOff.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                try {
-                    mBTSocket.getOutputStream().write(off.getBytes());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }});
+        btnOff.setOnClickListener(v -> {
+            try {
+                mBTSocket.getOutputStream().write(off.getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
 
 
@@ -88,10 +86,7 @@ public class Controlling extends Activity {
         bluetoothButton.setOnClickListener((View v) -> {
             try {
                 mBTSocket.getInputStream();
-//                ReadInput readInput = new ReadInput();
-//                readInput.run();
-//                readBluetoothTV.setText();
-//                readBluetoothTV.setText("readBluetoothTV: " + receiveData(mBTSocket));
+                readBluetoothTV.setText(strInput);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -128,7 +123,8 @@ public class Controlling extends Activity {
                          */
                         for (i = 0; i < buffer.length && buffer[i] != 0; i++) {
                         }
-                        final String strInput = new String(buffer, 0, i);
+//                        final String strInput = new String(buffer, 0, i);
+                        strInput = new String(buffer, 0, i);
                         Log.i("asdf", strInput);
 
                         /*
@@ -324,7 +320,7 @@ void setup() {
 
 void loop() {
 
-  Blue.print("12345678");
+//  Blue.print("12345678");
 
   // Wait a few seconds between measurements.
   delay(2000);
