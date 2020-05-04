@@ -46,6 +46,7 @@ public class MainActivity extends Activity {
     public static final String BUFFER_SIZE = "com.example.lightcontrol.buffersize";
     private static final String TAG = "BlueTest5-MainActivity";
 
+    //https://www.youtube.com/watch?v=GwgTlxLSeZ8
     //https://www.electroniclinic.com/android-app-development-to-control-arduino-over-bluetooth-using-android-studio/
 
     @Override
