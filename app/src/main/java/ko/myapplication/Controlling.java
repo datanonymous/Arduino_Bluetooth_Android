@@ -124,6 +124,7 @@ public class Controlling extends Activity {
         //https://github.com/jjoe64/GraphView
         GraphView graph = findViewById(R.id.graph);
         int xTimeIncrement = 0;
+        private LineGraphSeries<DataPoint> mSeries1;
 
         private boolean bStop = false;
         private Thread t;
@@ -160,25 +161,32 @@ public class Controlling extends Activity {
                         ///https://github.com/jjoe64/GraphView
                         ///https://github.com/jjoe64/GraphView/wiki/Realtime-chart
                         runOnUiThread(() -> {
-                            readBluetoothTV.setText(strInput);
+                            readBluetoothTV.setText("xTimeIncrement: " + xTimeIncrement); //readBluetoothTV.setText(strInput);
                             String[]humidityTempHeat = strInput.split(",");
 
-                            float humidityFloat = Float.parseFloat(humidityTempHeat[0]);
-                            float temperatureFloat = Float.parseFloat(humidityTempHeat[1]);
-                            float heatindexFloat = Float.parseFloat(humidityTempHeat[2]);
+                            if(strInput.length() >= 17){
+                                float humidityFloat = Float.parseFloat(humidityTempHeat[0]);
+                                float temperatureFloat = Float.parseFloat(humidityTempHeat[1]);
+                                float heatindexFloat = Float.parseFloat(humidityTempHeat[2]);
 
-                            if(humidityFloat != 0.0f){
-                                humidityTV.setText("Humidity (%): " + humidityFloat);
-                                LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[]{
-                                        new DataPoint(xTimeIncrement, humidityFloat)
-                                });
-                                graph.addSeries(series);
-                            }
-                            if(temperatureFloat != 0.0f){
-                                temperatureTV.setText("Temperature (f): " + temperatureFloat);
-                            }
-                            if(heatindexFloat != 0.0f){
-                                heatindexTV.setText("Heat index (f): " + heatindexFloat);
+                                if(xTimeIncrement==0){
+                                    mSeries1 = new LineGraphSeries<>(new DataPoint[]{
+                                            new DataPoint(1, 1)
+                                    });
+                                }
+
+                                mSeries1 = new LineGraphSeries<>();
+                                graph.addSeries(mSeries1);
+                                if(humidityFloat != 0.0f){
+                                    humidityTV.setText("Humidity (%): " + humidityFloat);
+                                    mSeries1.appendData(new DataPoint(xTimeIncrement, humidityFloat), false, 100);
+                                }
+                                if(temperatureFloat != 0.0f){
+                                    temperatureTV.setText("Temperature (f): " + temperatureFloat);
+                                }
+                                if(heatindexFloat != 0.0f){
+                                    heatindexTV.setText("Heat index (f): " + heatindexFloat);
+                                }
                             }
                             xTimeIncrement++;
                         });
