@@ -15,6 +15,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
@@ -93,23 +97,16 @@ public class Controlling extends Activity {
         });
 
 
-
-//        Thread thread = new Thread(){
-//            @Override
-//            public void run(){
-//                while(mBTSocket != null){
-//                    try {
-//                        Log.i("asdf", "asdfasdfasdf");
-//                        mBTSocket.connect();
-//                        mBTSocket.getInputStream();
-//                        readBluetoothTV.setText(strInput);
-//                        Thread.sleep(500);
-//                    } catch (IOException | InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//        };
+//        //https://github.com/jjoe64/GraphView
+//        GraphView graph = findViewById(R.id.graph);
+//        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
+//                new DataPoint(0, 1),
+//                new DataPoint(1, 5),
+//                new DataPoint(2, 3),
+//                new DataPoint(3, 2),
+//                new DataPoint(4, 6)
+//        });
+//        graph.addSeries(series);
 
 
 
@@ -123,6 +120,10 @@ public class Controlling extends Activity {
         TextView humidityTV = findViewById(R.id.humidityTV);
         TextView temperatureTV = findViewById(R.id.temperatureTV);
         TextView heatindexTV = findViewById(R.id.heatindexTV);
+
+        //https://github.com/jjoe64/GraphView
+        GraphView graph = findViewById(R.id.graph);
+        int xTimeIncrement = 0;
 
         private boolean bStop = false;
         private Thread t;
@@ -156,13 +157,30 @@ public class Controlling extends Activity {
                          */
 
                         //https://stackoverflow.com/questions/5161951/android-only-the-original-thread-that-created-a-view-hierarchy-can-touch-its-vi
-                        ///
+                        ///https://github.com/jjoe64/GraphView
+                        ///https://github.com/jjoe64/GraphView/wiki/Realtime-chart
                         runOnUiThread(() -> {
                             readBluetoothTV.setText(strInput);
                             String[]humidityTempHeat = strInput.split(",");
-                            humidityTV.setText("Humidity (%): " + humidityTempHeat[0]);
-                            temperatureTV.setText("Temperature (f): " + humidityTempHeat[1]);
-                            heatindexTV.setText("Heat index (f): " + humidityTempHeat[2]);
+
+                            float humidityFloat = Float.parseFloat(humidityTempHeat[0]);
+                            float temperatureFloat = Float.parseFloat(humidityTempHeat[1]);
+                            float heatindexFloat = Float.parseFloat(humidityTempHeat[2]);
+
+                            if(humidityFloat != 0.0f){
+                                humidityTV.setText("Humidity (%): " + humidityFloat);
+                                LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[]{
+                                        new DataPoint(xTimeIncrement, humidityFloat)
+                                });
+                                graph.addSeries(series);
+                            }
+                            if(temperatureFloat != 0.0f){
+                                temperatureTV.setText("Temperature (f): " + temperatureFloat);
+                            }
+                            if(heatindexFloat != 0.0f){
+                                heatindexTV.setText("Heat index (f): " + heatindexFloat);
+                            }
+                            xTimeIncrement++;
                         });
                         ///
 
