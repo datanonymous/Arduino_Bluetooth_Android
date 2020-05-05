@@ -94,11 +94,33 @@ public class Controlling extends Activity {
 
 
 
+//        Thread thread = new Thread(){
+//            @Override
+//            public void run(){
+//                while(mBTSocket != null){
+//                    try {
+//                        Log.i("asdf", "asdfasdfasdf");
+//                        mBTSocket.connect();
+//                        mBTSocket.getInputStream();
+//                        readBluetoothTV.setText(strInput);
+//                        Thread.sleep(500);
+//                    } catch (IOException | InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        };
+
+
+
     } //end onCreate
 
 
 
     private class ReadInput implements Runnable {
+
+        TextView readBluetoothTV = findViewById(R.id.readBluetoothTV);
+
         private boolean bStop = false;
         private Thread t;
         public ReadInput() {
@@ -126,10 +148,17 @@ public class Controlling extends Activity {
 //                        final String strInput = new String(buffer, 0, i);
                         strInput = new String(buffer, 0, i);
                         Log.i("asdf", strInput);
-
                         /*
                          * If checked then receive text, better design would probably be to stop thread if unchecked and free resources, but this is a quick fix
                          */
+
+                        //https://stackoverflow.com/questions/5161951/android-only-the-original-thread-that-created-a-view-hierarchy-can-touch-its-vi
+                        ///
+                        runOnUiThread(() -> {
+                            readBluetoothTV.setText(strInput);
+                        });
+                        ///
+
                     }
                     Thread.sleep(500);
                 }
