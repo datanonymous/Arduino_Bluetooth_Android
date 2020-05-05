@@ -120,6 +120,9 @@ public class Controlling extends Activity {
     private class ReadInput implements Runnable {
 
         TextView readBluetoothTV = findViewById(R.id.readBluetoothTV);
+        TextView humidityTV = findViewById(R.id.humidityTV);
+        TextView temperatureTV = findViewById(R.id.temperatureTV);
+        TextView heatindexTV = findViewById(R.id.heatindexTV);
 
         private boolean bStop = false;
         private Thread t;
@@ -156,6 +159,10 @@ public class Controlling extends Activity {
                         ///
                         runOnUiThread(() -> {
                             readBluetoothTV.setText(strInput);
+                            String[]humidityTempHeat = strInput.split(",");
+                            humidityTV.setText("Humidity (%): " + humidityTempHeat[0]);
+                            temperatureTV.setText("Temperature (f): " + humidityTempHeat[1]);
+                            heatindexTV.setText("Heat index (f): " + humidityTempHeat[2]);
                         });
                         ///
 
