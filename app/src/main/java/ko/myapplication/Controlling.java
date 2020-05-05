@@ -99,14 +99,14 @@ public class Controlling extends Activity {
 
 //        //https://github.com/jjoe64/GraphView
 //        GraphView graph = findViewById(R.id.graph);
-//        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
+//        LineGraphSeries<DataPoint> mSeries1 = new LineGraphSeries<>(new DataPoint[]{
 //                new DataPoint(0, 1),
 //                new DataPoint(1, 5),
 //                new DataPoint(2, 3),
 //                new DataPoint(3, 2),
 //                new DataPoint(4, 6)
 //        });
-//        graph.addSeries(series);
+//        graph.addSeries(mSeries1);
 
 
 
@@ -171,12 +171,12 @@ public class Controlling extends Activity {
 
                                 if(xTimeIncrement==0){
                                     mSeries1 = new LineGraphSeries<>(new DataPoint[]{
-                                            new DataPoint(1, 1)
+                                            new DataPoint(0, 0)
                                     });
                                 }
-
-                                mSeries1 = new LineGraphSeries<>();
-                                graph.addSeries(mSeries1);
+//                                mSeries1 = new LineGraphSeries<>();
+//                                graph.addSeries(mSeries1);
+                                xTimeIncrement++;
                                 if(humidityFloat != 0.0f){
                                     humidityTV.setText("Humidity (%): " + humidityFloat);
                                     mSeries1.appendData(new DataPoint(xTimeIncrement, humidityFloat), false, 100);
@@ -187,8 +187,8 @@ public class Controlling extends Activity {
                                 if(heatindexFloat != 0.0f){
                                     heatindexTV.setText("Heat index (f): " + heatindexFloat);
                                 }
+                                graph.addSeries(mSeries1);
                             }
-                            xTimeIncrement++;
                         });
                         ///
 
