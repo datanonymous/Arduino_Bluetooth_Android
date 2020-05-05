@@ -382,27 +382,33 @@ void loop() {
 
   Serial.print(F("Humidity: "));
   Serial.print(h);
-  Serial.print(F("%  Temperature: "));
+  Serial.print(F("% Temperature: "));
   Serial.print(t);
   Serial.print(F("°C "));
   Serial.print(f);
-  Serial.print(F("°F  Heat index: "));
+  Serial.print(F("°F Heat index: "));
   Serial.print(hic);
   Serial.print(F("°C "));
   Serial.print(hif);
   Serial.println(F("°F"));
 
-  Blue.print(F("Humidity: "));
-  Blue.print(h);
-  Blue.print(F("%  Temperature: "));
-  Blue.print(t);
-  Blue.print(F("°C "));
-  Blue.print(f);
-  Blue.print(F("°F  Heat index: "));
-  Blue.print(hic);
-  Blue.print(F("°C "));
-  Blue.print(hif);
-  Blue.println(F("°F"));
+//  Blue.print(F("Humidity: "));
+//  Blue.print(h);
+//  Blue.print(F("%  Temperature: "));
+//  Blue.print(t);
+//  Blue.print(F("°C "));
+//  Blue.print(f);
+//  Blue.print(F("°F  Heat index: "));
+//  Blue.print(hic);
+//  Blue.print(F("°C "));
+//  Blue.print(hif);
+//  Blue.println(F("°F"));
+
+  Blue.print(h); //% humidity
+  Blue.print(F(","));
+  Blue.print(f); //temperature in F
+  Blue.print(F(","));
+  Blue.print(hif); //heat index in F
 
   if(Blue.available()>0){
     data = Blue.parseInt();
